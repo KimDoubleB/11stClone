@@ -10,8 +10,11 @@
           class="close-nav"
           @click="offNav"></div>
       </div>
-
-      <div class="container">
+      <div
+        ref="container"
+        class="container"
+        @mouseleave="categoryHover= -1">
+        <!--    GROUP    -->
         <div class="group categories">
           <h3 class="group__title">
             {{ navigations.categories.title }}
@@ -19,7 +22,9 @@
           <ul class="group__list">
             <li
               v-for="(item1, index) in navigations.categories.list"
-              :key="item1.name">
+              :key="item1.name"
+              :class="{ hover: categoryHover === index }"
+              @mouseenter="categoryHover = index">
               <div class="category-icon"></div>
               {{ item1.name }}
               <ul class="depth">
@@ -34,6 +39,53 @@
             </li>
           </ul>
         </div>
+        <!--    GROUP    -->
+        <div class="group major-services">
+          <div class="group__title">
+            {{ navigations.majorServices.title }}
+          </div>
+          <ul class="group__list">
+            <li
+              v-for="item in navigations.majorServices.list"
+              :key="item.name">
+              <a :href="item.href">
+                {{ item.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!--    GROUP    -->
+        <div
+          ref="outlets"
+          class="group outlets">
+          <div
+            class="group__title"
+            @click="toggleGroup('outlets')">
+            {{ navigations.outlets.title }}
+            <div class="toggle-list"></div>
+          </div>
+          <ul
+            v-show="isShowOutlets"
+            class="group__list">
+            <li
+              v-for="item in navigations.outlets.list"
+              :key="item.name">
+              <a :href="item.href">
+                <img
+                  :src="item.src"
+                  :alt="item.name"
+                  width="250" />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="exhibitions">
+        <a :href="navigations.exhibitions.href">
+          <img
+            :src="navigations.exhibitions.src"
+            :alt="navigations.exhibitions.name" />
+        </a>
       </div>
     </nav>
 
@@ -45,11 +97,17 @@
 </template>
 
 <script>
+import _upperFirst from 'lodash/upperFirst'
+
 export default {
   data() {
     return {
       navigations: {},
-      done: false // 네비게이션 처음에 렌더링 안해 -> 데이터 갖고오면 하자.
+      done: false, // 네비게이션 처음에 렌더링 안해 -> 데이터 갖고오면 하자.
+      categoryHover: -1,
+      isShowOutlets: false,
+      isShowPartners: false,
+      isShowBrandMall: false
     }
   },
   computed: {
@@ -73,6 +131,16 @@ export default {
     },
     offNav() {
       this.$store.dispatch("navigation/offNav")
+    },
+    toggleGroup(name) {
+      const pascalCaseName = _upperFirst(name)
+      const computedName = `isShow${pascalCaseName}`
+      this.$data[computedName] = !this.$data[computedName]
+      if(this.$data[computedName]){
+        this.$nextTick(() => {
+          this.$refs.container.scrollTop = this.$refs[name].offsetTop - 70
+        })
+      }
     }
   }
 }
@@ -133,12 +201,42 @@ nav {
   }
 
   .container {
+    height: calc(100% - 164px);
+    overflow-y: auto;
+    padding: 10px 0;
+    box-sizing: border-box;
+
     // Common group
     .group {
+      background-color: #fff;
+      margin-bottom: 10px;
+
       &__title {
         font-size: 17px;
         font-weight: 700;
         padding: 14px 25px;
+        position: relative;
+        .toggle-list {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 60px;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &::after {
+            content: "";
+            display: block;
+            width: 7px;
+            height: 7px;
+            margin-top: -3px;
+            border: solid #333;
+            border-width: 0 1px 1px 0;
+            box-sizing: border-box;
+            transform: rotate(45deg);
+          }
+        }
       }
 
       &__list {
@@ -156,6 +254,7 @@ nav {
           > li {
             height: 50px;
             padding: 0 25px;
+
             .category-icon {
               width: 24px;
               height: 24px;
@@ -163,29 +262,32 @@ nav {
               background-image: url("https://trusting-williams-8cacfb.netlify.app/images/categories_2x.png");
               background-size: 48px;
             }
+
             @for $i from 1 through 13 {
               // scss 보간법은 #{$}
-              &:nth-child(#{$i}){
-                .category-icon{
+              &:nth-child(#{$i}) {
+                .category-icon {
                   background-position: 0 -#{($i - 1) * 24}px;
                 }
               }
             }
             // TO DO: 클래스 선택자로 수정해야 함
-            &:hover {
+            &.hover {
               background-color: #ff5534;
               color: #fff;
               @for $i from 1 through 13 {
-                &:nth-child(#{$i}){
-                  .category-icon{
+                &:nth-child(#{$i}) {
+                  .category-icon {
                     background-position: -24px -#{($i - 1) * 24}px;
                   }
                 }
               }
+
               .depth {
                 display: block;
               }
             }
+
             .depth {
               display: none;
               width: 200px;
@@ -199,9 +301,80 @@ nav {
               left: 300px;
               background-color: #fff;
               font-size: 15px;
+              overflow-y: auto;
+
+              li {
+                height: 40px;
+
+                a {
+                  padding: 0 20px;
+                }
+
+                &:hover {
+                  background-color: #fafafa;
+                  color: #ff5534;
+
+                  a {
+                    color: #ff5534;
+                  }
+                }
+              }
             }
           }
         }
+      }
+      &.major-services {
+        .group__list {
+          display: flex;
+          flex-wrap: wrap;
+
+          li {
+            width: 50%;
+            height: 50px;
+
+            a {
+              padding-left: 25px;
+            }
+
+            &:hover {
+              background-color: #fafafa;
+              color: #ff5534;
+
+              a {
+                color: #ff5534;
+              }
+            }
+          }
+        }
+      }
+      &.outlets {
+        .group__title {
+          cursor: pointer;
+        }
+        .group__list {
+          padding-bottom: 25px;
+          li {
+            margin-top: 10px;
+            padding-left: 25px;
+          }
+        }
+      }
+    }
+  }
+
+  .exhibitions {
+    width: 300px;
+    height: 94px;
+
+    a {
+      display: block;
+      width: inherit;
+      height: inherit;
+      cursor: pointer;
+
+      img {
+        width: inherit;
+        height: inherit;
       }
     }
   }
