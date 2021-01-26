@@ -163,11 +163,11 @@ nav {
               background-image: url("https://trusting-williams-8cacfb.netlify.app/images/categories_2x.png");
               background-size: 48px;
             }
-            @for $i from 0 to 12 {
+            @for $i from 1 through 13 {
               // scss 보간법은 #{$}
               &:nth-child(#{$i}){
                 .category-icon{
-                  background-position: 0 -#{$i * 24}px;
+                  background-position: 0 -#{($i - 1) * 24}px;
                 }
               }
             }
@@ -175,10 +175,10 @@ nav {
             &:hover {
               background-color: #ff5534;
               color: #fff;
-              @for $i from 0 to 12 {
+              @for $i from 1 through 13 {
                 &:nth-child(#{$i}){
                   .category-icon{
-                    background-position: -24px -#{$i * 24}px;
+                    background-position: -24px -#{($i - 1) * 24}px;
                   }
                 }
               }
