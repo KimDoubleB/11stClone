@@ -4,6 +4,7 @@
     <my-header></my-header>
     <billboard></billboard>
     <direct></direct>
+    <hot-focus></hot-focus>
     <wing-banner></wing-banner>
   </div>
 </template>
@@ -14,6 +15,7 @@ import MyHeader from "~/src/components/MyHeader";
 import Billboard from "~/src/components/Billboard";
 import Direct from "~/src/components/Direct";
 import WingBanner from "~/src/components/WingBanner";
+import HotFocus from "~/src/components/HotFocus";
 
 export default {
   components: {
@@ -21,7 +23,8 @@ export default {
     MyHeader,
     Billboard,
     Direct,
-    WingBanner
+    WingBanner,
+    HotFocus
   }
 }
 </script>
