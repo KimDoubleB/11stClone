@@ -183,13 +183,6 @@ nav {
       }
     }
 
-    .flex-space {
-      // 혼자 증가여부를 다 써라
-      // 형제 요소에게는 content를 제외하고 증가못하게 만듬
-      // 즉, 양쪽 정렬을 시킬 수 있다.
-      flex-grow: 1;
-    }
-
     .close-nav {
       width: 36px;
       height: 36px;
