@@ -2,9 +2,9 @@
   <a class="product-card">
     <!--  이미지 섹션  -->
     <div
-      class="thumbnail"
       :class="{ loading: imageLoading }"
-      :style="{ backgroundImage: `url(${product.thumbnail})`}"></div>
+      :style="{ backgroundImage: `url(${product.thumbnail})`}"
+      class="thumbnail"></div>
 
     <!--  정보 섹션  -->
     <div class="contents">
@@ -103,7 +103,6 @@
 
 <script>
 import numeral from 'numeral'
-import _kebabCase from 'lodash/kebabCase'
 
 export default {
   // props -> 부모요소
@@ -132,9 +131,6 @@ export default {
     this.loadImage()
   },
   methods: {
-    kebabCase (str) {
-      return _kebabCase(str)
-    },
     // 1000 단위 콤마 생성
     addComma (num) {
       return numeral(num).format('0,0')
@@ -166,7 +162,7 @@ export default {
       background-position: center;
       background-size: cover;
       cursor: pointer;
-      transition: all 0.5s ease-in-out; // 포토카드 확대시 자연스럽게
+      transition: all .5s ease-in-out; // 포토카드 확대시 자연스럽게
       &.loading {
         display: flex;
         justify-content: center;
@@ -286,8 +282,9 @@ export default {
       }
     }
     &:hover {
+      // 좋아요~
       // 마우스 호버시 선택된 포토카드 강조
-      box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 20px 1px rgba(#000, .2);
       .thumbnail {
         transform: scale(1.1);
       }

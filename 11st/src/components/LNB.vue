@@ -39,8 +39,10 @@
             </li>
           </ul>
         </div>
-        <!--    GROUP    -->
-        <div class="group major-services">
+
+        <div
+          class="group major-services"
+          @mouseenter="categoryHover = -1">
           <div class="group__title">
             {{ navigations.majorServices.title }}
           </div>
@@ -57,7 +59,8 @@
         <!--    GROUP    -->
         <div
           ref="outlets"
-          class="group outlets">
+          class="group outlets"
+          @mouseenter="categoryHover = -1">
           <div
             class="group__title"
             @click="toggleGroup('outlets')">
@@ -138,7 +141,7 @@ export default {
       this.$data[computedName] = !this.$data[computedName]
       if(this.$data[computedName]){
         this.$nextTick(() => {
-          this.$refs.container.scrollTop = this.$refs[name].offsetTop - 70
+          this.$refs.container.scrollTop = this.$refs[name].offsetTop - 75
         })
       }
     }

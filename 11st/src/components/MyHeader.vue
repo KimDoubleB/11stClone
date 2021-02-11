@@ -155,7 +155,7 @@ export default {
       })
       this.$nextTick(() => {
         new Swiper(this.$refs.swiper, {
-          utilion: 'vertical',
+          direction: 'vertical',
           speed: 1000,
           autoplay: {
             delay: 3000
@@ -173,6 +173,7 @@ export default {
       const res = await this.$search({
         searchText: this.searchText
       })
+      console.log(res)
       // location에 설정해주면, 그 URL로 이동
       // location = res;
     }
