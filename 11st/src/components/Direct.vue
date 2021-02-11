@@ -73,16 +73,19 @@ a{
       &:last-child {
         margin-right: 0;
       }
-      .text {
-        font-size: 15px;
-        text-align: center;
-      }
+      // 구조적으로 아이콘이 .text 보다 더 이전 형제 요소에요~
       .icon {
         display: block;
         width: 90px;
         height: 90px;
-        margin: 0 0 15px 0;
-        background-repeat: no-repeat;
+        // 같은 하나만 사용할 때는 개별 속성을 권장해요~
+        margin-bottom: 15px;
+        // 사용한 배경 이미지가 없다면 필요치 않은 속성이에요~
+        // background-repeat: no-repeat;
+      }
+      .text {
+        font-size: 15px;
+        text-align: center;
       }
       .icon__open-more {
         background-image: url("https://trusting-williams-8cacfb.netlify.app/images/main_2x.png");

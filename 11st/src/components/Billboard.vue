@@ -14,9 +14,8 @@
             <img
               :data-src="item.src"
               class="swiper-lazy" />
-            <div
-              class="swiper-lazy-preloader">
-            </div>
+            <!--속성이 하나만 사용되면 한 줄로 작성하는 게 좋아요~-->
+            <div class="swiper-lazy-preloader"></div>
           </div>
         </div>
       </div>
@@ -62,8 +61,7 @@ export default {
   },
   mounted() {
     this.init()
-  }
-  ,
+  },
   methods: {
     async init() {
       this.billboards = await this.$fetch({
@@ -86,8 +84,7 @@ export default {
           navigation: {
             nextEl: '.billboard .next',
             prevEl: '.billboard .prev'
-          }
-          ,
+          },
           on: {
             slideChange: swiper => {
               const {realIndex} = swiper
